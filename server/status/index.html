@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>ページのタイトル</title>
+</head>
+<body>
+    ブラウザに表示される内容<br>
+    <script type="text/javascript">
+      fetch(https://api.hatena-scratch.f5.si/, {
+        method: 'GET' 
+      })
+        .then(response => {
+          document.write("サーバーは正常に稼働しています。");
+        })
+        .catch(error => {
+          document.write("取得に失敗しました。");
+        });
+    </script>
+</body>
+</html>
