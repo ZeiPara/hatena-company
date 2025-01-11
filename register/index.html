@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>アカウント登録</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+    .register-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    .register-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .register-container label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .register-container input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .register-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .register-container button:hover {
+      background-color: #45a049;
+    }
+    .error-message, .success-message {
+      color: red;
+      text-align: center;
+      display: none;
+    }
+    .success-message {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="register-container">
+    <h2>アカウント登録</h2>
+    <form id="register-form">
+      <label for="username">ユーザー名:</label>
+      <input type="text" id="username" name="username" required>
+      
+      <label for="password">パスワード:</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="confirm-password">パスワード再確認:</label>
+      <input type="password" id="confirm-password" name="confirm-password" required>
+      
+      <button type="submit">登録</button>
+    </form>
+    <div id="error-message" class="error-message"></div>
+    <div id="success-message" class="success-message">アカウントが正常に作成されました！</div>
+  </div>
+
+  <script>
+    // フォームの送信イベント
+    document.getElementById('register-form').addEventListener('submit', async function(event) {
+      event.preventDefault(); // フォームが通常送信されないようにする
+
+      // 入力内容を取得
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      // パスワード確認
+      if (password !== confirmPassword) {
+        document.getElementById('error-message').textContent = 'パスワードが一致しません。';
+        document.getElementById('error-message').style.display = 'block';
+        return;
+      } else {
+        document.getElementById('error-message').style.display = 'none';
+      }
+
+      // リクエストを送信するAPIエンドポイント
+      const registerUrl = 'https://hatena-scratch.f5.si/register';
+
+      // APIリクエスト用のオプション
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      };
+
+      try {
+        // APIへリクエストを送信
+        const response = await fetch(registerUrl, options);
+
+        if (response.ok) {
+          // 登録成功の場合
+          document.getElementById('success-message').style.display = 'block';
+          document.getElementById('error-message').style.display = 'none';
+
+          // フォームをリセット
+          document.getElementById('register-form').reset();
+        } else {
+          // エラーの場合、エラーメッセージを表示
+          const errorData = await response.json();
+          document.getElementById('error-message').textContent = errorData.error || '登録に失敗しました。';
+          document.getElementById('error-message').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('エラーが発生しました:', error);
+        document.getElementById('error-message').textContent = 'サーバーエラーが発生しました。';
+        document.getElementById('error-message').style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>
