@@ -138,6 +138,7 @@
         if (response.ok) {
           // ログイン成功の場合、トークンを取得し、成功メッセージを表示
           const data = await response.json();
+          localStorage.removeItem('authToken');
           alert('ログイン成功！');
           console.log('ログイントークン:', data.token); // トークンをログに表示
           localStorage.setItem('authToken', data.token);
