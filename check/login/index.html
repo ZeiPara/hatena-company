@@ -7,16 +7,19 @@
     </style>
   </head>
   <body>
+    <div id=token></div>
     <div id=log>ログイン情報を取得中...</div>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         const element = document.getElementById("log");
+        const element2 = document.getElementById("token");
         try {
           const token = localStorage.getItem("authToken");
         } catch( e ) {
           element.innerText = "トークンの取得に失敗しました"
           return false;
         }
+        element2.innerText = "トークンの取得に成功しました"
         fetch("https://api.hatena-scratch.f5.si/auth/check", {
           method: "GET",
           headers: {
