@@ -78,6 +78,8 @@
       <input type="password" id="confirm-password" name="confirm-password" required>
       <br>
       登録済みなら<a href="https://hatena-scratch.f5.si/login">こちら</a>へ
+      <br>注意:アカウントを登録した後ログインする必要があります。
+      <br>　　 登録が完了するとログインページに飛ばされます。
       <button type="submit" id="submit-button">登録</button>
     </form>
     <div id="error-message" class="error-message"></div>
@@ -101,7 +103,7 @@
 
         if (response.ok) {
           // ログイン済みならトップページにリダイレクト
-          window.location.href = '/index.html'; // トップページのURLに置き換える
+          window.location.href = '/login'; // トップページのURLに置き換える
         }
       } catch (error) {
         console.error('エラー:', error);
