@@ -24,7 +24,7 @@
             if (data.isAuthenticated) {
               element.innerText = "認証成功:", data.user;
             } else {
-              element.innerText = "認証失敗";
+              element.innerText = "認証失敗", token;
             }
           })
           .catch(error => element.innerText = "エラー:", error)
