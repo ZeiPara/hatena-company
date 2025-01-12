@@ -49,6 +49,10 @@
     .login-container button:hover {
       background-color: #45a049;
     }
+    .login-container button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
     .error-message {
       color: red;
       text-align: center;
@@ -75,28 +79,31 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-  const token = localStorage.getItem('authToken'); // トークンを取得
+      const token = localStorage.getItem('authToken'); // トークンを取得
 
-  if (!token) return; // トークンが無ければ何もしない（未ログインの状態）
+      if (token) {
+        try {
+          // トークンの有効性を確認するためにサーバーにリクエスト
+          const response = await fetch('https://api.hatena-scratch.f5.si/auth/check', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
 
-  try {
-    // トークンを検証するリクエストを送信
-    const response = await fetch('https://api.hatena-scratch.f5.si/auth/check', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
+          if (response.ok) {
+            // トークンが有効なら、ログイン済みとしてトップページにリダイレクト
+            window.location.href = '/index.html'; // トップページのURLに置き換える
+          } else {
+            // トークンが無効なら、localStorageから削除
+            localStorage.removeItem('authToken');
+          }
+        } catch (error) {
+          console.error('エラー:', error);
+          // サーバーにリクエストできなかった場合でも、ログインページはそのまま表示
+        }
+      }
     });
-
-    if (response.ok) {
-      // ログイン済みならトップページにリダイレクト
-      window.location.href = '/index.html'; // トップページのURLに置き換える
-    }
-  } catch (error) {
-    console.error('エラー:', error);
-    // エラーが発生しても、ログインページをそのまま表示
-  }
-});
 
     // フォームの送信イベント
     document.getElementById('login-form').addEventListener('submit', async function(event) {
@@ -104,7 +111,7 @@
 
       const submitButton = document.getElementById('submit-button');
       submitButton.disabled = true; // ボタンを無効化
-      
+
       // 入力内容を取得
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
@@ -135,9 +142,10 @@
           console.log('ログイントークン:', data.token); // トークンをログに表示
           localStorage.setItem('authToken', data.token);
 
-          // 必要に応じて、トークンをlocalStorageに保存したり、次のページに遷移したりできます
-          // localStorage.setItem('authToken', data.token);
-          // window.location.href = '/dashboard'; // ダッシュボードに遷移（例）
+          // ログイン後、トップページに遷移
+          setTimeout(() => {
+            window.location.href = '/index.html'; // トップページのURLに置き換える
+          }, 1000); // 1秒後にリダイレクト
         } else {
           // エラーの場合、エラーメッセージを表示
           const errorData = await response.json();
@@ -146,6 +154,9 @@
       } catch (error) {
         console.error('エラーが発生しました:', error);
         document.getElementById('error-message').style.display = 'block';
+      } finally {
+        // リクエスト完了後にボタンを再度有効化
+        submitButton.disabled = false;
       }
     });
   </script>
