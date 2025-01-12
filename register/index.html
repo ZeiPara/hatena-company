@@ -154,7 +154,7 @@
           // 登録成功後、トップページにリダイレクト
           setTimeout(() => {
             window.location.href = '/index.html'; // トップページのURLに置き換える
-          }, 1000); // 1秒後にリダイレクト
+          }, 1); // 0.001秒後にリダイレクト
         } else {
           const errorData = await response.json();
           document.getElementById('error-message').textContent = errorData.error || '登録に失敗しました。';
