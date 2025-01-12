@@ -93,7 +93,7 @@
 
           if (response.ok) {
             // トークンが有効なら、ログイン済みとしてトップページにリダイレクト
-            window.location.href = '/index.html'; // トップページのURLに置き換える
+            window.location.href = '/'; // トップページのURLに置き換える
           } else {
             // トークンが無効なら、localStorageから削除
             localStorage.removeItem('authToken');
