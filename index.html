@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>はてなscratch式会社</title>
   <style>
+    img {
+        max-width: 100%;
+        height: auto;
+    }
    body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -39,7 +43,7 @@
   .rightbar {
     position: fixed; /* サイドバーを固定 */
     right: 0; /* 右端に固定 */
-    margin-top: 80px;
+    margin-top: 10px;
     width: 200px; /* サイドバーの幅 */
     height: calc(100vh - 70px);  /* ヘッダーを除いた高さを指定 */
     padding: 20px
@@ -49,16 +53,13 @@
   </style>
 </head>
 <body>
-  <div class="header">
-    はてなscratch式会社
-  </div>
-  <div class="container">
-    <main class="content">
-      内容
-    </main>
-    <aside class="rightbar">
-      ここに広告でも入れる？
-    </aside>
-  </div>
+<div class="header">はてなscratch式会社</div>
+<div class="container"><main class="content">内容</main>
+<aside class="rightbar"><img id="sidebar1" src="" alt="sidebar1"></aside>
+</div>
+<script>
+const sidebar1 = 'https://cdn.scratch.mit.edu/scratchr2/static/__774e7841eab6f875e16f7cec38b2f7c3__/images/404-giga.png';
+document.getElementById('sidebar1').src = sidebar1;
+</script>
 </body>
 </html>
