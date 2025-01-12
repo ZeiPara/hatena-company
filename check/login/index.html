@@ -7,12 +7,12 @@
     </style>
   </head>
   <body>
-    <div id=token></div>
+    <div id=tokenlog></div>
     <div id=log>ログイン情報を取得中...</div>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         const element = document.getElementById("log");
-        const element2 = document.getElementById("token");
+        const element2 = document.getElementById("tokenlog");
         try {
           const token = localStorage.getItem("authToken");
         } catch( e ) {
