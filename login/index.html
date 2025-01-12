@@ -105,6 +105,7 @@
           const data = await response.json();
           alert('ログイン成功！');
           console.log('ログイントークン:', data.token); // トークンをログに表示
+          localStorage.setItem('authToken', data.token);
 
           // 必要に応じて、トークンをlocalStorageに保存したり、次のページに遷移したりできます
           // localStorage.setItem('authToken', data.token);
