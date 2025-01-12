@@ -11,7 +11,12 @@
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         const element = document.getElementById("log");
-        const token = localStorage.getItem("authToken");
+        try {
+          const token = localStorage.getItem("authToken");
+        } catch( e ) {
+          element.innerText = "トークンの取得に失敗しました"
+          return false;
+        }
         fetch("https://api.hatena-scratch.f5.si/auth/check", {
           method: "GET",
           headers: {
@@ -27,8 +32,7 @@
               element.innerText = "認証失敗", token;
             }
           })
-          .catch(error => element.innerText = "エラー:", error)
-      });
+          .catch(error => element.innerText = "エラー:", error)      });
     </script>
   </body>
 </html>
