@@ -19,6 +19,7 @@
           element.innerText = "トークンの取得に失敗しました"
           return false;
         }
+        const token = localStorage.getItem("authToken");
         element2.innerText = 'トークンの取得に成功しました:' + token.outerHTML
         fetch("https://api.hatena-scratch.f5.si/auth/check", {
           method: "GET",
