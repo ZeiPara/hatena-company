@@ -146,7 +146,7 @@
           // ログイン後、トップページに遷移
           setTimeout(() => {
             window.location.href = '/'; // トップページのURLに置き換える
-          }, 1); // 0.001秒後にリダイレクト
+          }, 500); // 0.5秒後にリダイレクト
         } else {
           // エラーの場合、エラーメッセージを表示
           const errorData = await response.json();
