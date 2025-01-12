@@ -19,7 +19,7 @@
           element.innerText = "トークンの取得に失敗しました"
           return false;
         }
-        element2.innerText = "トークンの取得に成功しました:", token
+        element2.innerText = 'トークンの取得に成功しました:${token}'
         fetch("https://api.hatena-scratch.f5.si/auth/check", {
           method: "GET",
           headers: {
@@ -30,9 +30,9 @@
           .then(response => response.json())
           .then(data => {
             if (data.isAuthenticated) {
-              element.innerText = "認証成功:", data.user;
+              element.innerText = '認証成功:${data.user}';
             } else {
-              element.innerText = "認証失敗", token;
+              element.innerText = "認証失敗";
             }
           })
           .catch(error => element.innerText = "エラー:", error)      });
