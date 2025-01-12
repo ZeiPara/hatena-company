@@ -102,6 +102,9 @@
     document.getElementById('login-form').addEventListener('submit', async function(event) {
       event.preventDefault(); // フォームが通常送信されないようにする
 
+      const submitButton = document.getElementById('submit-button');
+      submitButton.disabled = true; // ボタンを無効化
+      
       // 入力内容を取得
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
