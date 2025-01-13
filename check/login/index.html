@@ -23,7 +23,6 @@
         }
         const token = localStorage.getItem("authToken");
         element2.innerText = `トークンの取得に成功しました: ${token}`
-        const token = localStorage.getItem("authToken");
         const base64Url = token.split('.')[1]; // トークンのペイロード部分
         const decodedPayload = JSON.parse(atob(base64Url));
         element3.innertext = decodedPayload
