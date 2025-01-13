@@ -14,12 +14,13 @@
         const element = document.getElementById("log");
         const element2 = document.getElementById("tokenlog");
         try {
-          const token = localStorage.getItem("authToken");
+          const tokentest = localStorage.getItem("authToken");
         } catch( e ) {
           element2.innerText = "トークンの取得に失敗しました"
           return false;
         }
-        element2.innerText = 'トークンの取得に成功しました:' + token
+        const token = localStorage.getItem("authToken");
+        element2.innerText = `トークンの取得に成功しました: ${token}`
         fetch("https://api.hatena-scratch.f5.si/auth/check", {
           method: "GET",
           headers: {
