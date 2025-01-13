@@ -8,11 +8,13 @@
   </head>
   <body>
     <div id=tokenlog></div>
+    <div id=token1></div>
     <div id=log>ログイン情報を取得中...</div>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         const element = document.getElementById("log");
         const element2 = document.getElementById("tokenlog");
+        const element3 = document.grtElementById("token1");
         try {
           const tokentest = localStorage.getItem("authToken");
         } catch( e ) {
@@ -21,6 +23,10 @@
         }
         const token = localStorage.getItem("authToken");
         element2.innerText = `トークンの取得に成功しました: ${token}`
+        const token = localStorage.getItem("authToken");
+        const base64Url = token.split('.')[1]; // トークンのペイロード部分
+        const decodedPayload = JSON.parse(atob(base64Url));
+        element3.innertext = decodedPayload
         fetch("https://api.hatena-scratch.f5.si/auth/check", {
           method: "GET",
           headers: {
