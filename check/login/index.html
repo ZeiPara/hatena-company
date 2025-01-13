@@ -16,7 +16,7 @@
         try {
           const token = localStorage.getItem("authToken");
         } catch( e ) {
-          element.innerText = "トークンの取得に失敗しました"
+          element2.innerText = "トークンの取得に失敗しました"
           return false;
         }
         element2.innerText = 'トークンの取得に成功しました:' + token
