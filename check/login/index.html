@@ -27,7 +27,6 @@
             element3.innerText = JSON.stringify(payload);
             const currentTime = Math.floor(Date.now() / 1000); // 現在のUnixタイムスタンプ
             const expTime = payload.exp; // expの値を取得
-            const resultElement = document.getElementById('result');
             if (currentTime < expTime) {
             element4.innerText = "トークンは有効です。";
             } else {
