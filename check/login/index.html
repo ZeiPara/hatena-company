@@ -2,37 +2,54 @@
 <html>
 <head>
     <title>ログインチェック</title>
-    <style></style>
 </head>
 <body>
     <div id="tokenlog"></div>
     <div id="token1"></div>
+    <div id="token2"></div>
     <div id="log">ログイン情報を取得中...</div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const element = document.getElementById("log");
             const element2 = document.getElementById("tokenlog");
             const element3 = document.getElementById("token1");
-            const element4 = document.getElementById("token2");
+            const element4 = document.getElementById("token2"); // 修正: トークンの状態を表示する要素
+
+            let token;
+
+            // トークンの取得
             try {
-                const tokentest = localStorage.getItem("authToken");
+                token = localStorage.getItem("authToken");
+                if (!token) {
+                    throw new Error("トークンが見つかりません");
+                }
+                element2.innerText = `トークンの取得に成功しました: ${token}`;
             } catch (e) {
-                element2.innerText = "トークンの取得に失敗しました";
+                element2.innerText = "トークンの取得に失敗しました: " + e.message;
                 return;
             }
-            const token = localStorage.getItem("authToken");
-            element2.innerText = `トークンの取得に成功しました: ${token}`;
-            const base64Url = token.split('.')[1]; // トークンのペイロード部分
-            const payload = JSON.parse(atob(base64Url));
-            element3.innerText = JSON.stringify(payload);
-            const currentTime = Math.floor(Date.now() / 1000); // 現在のUnixタイムスタンプ
-            const expTime = payload.exp; // expの値を取得
-            if (currentTime < expTime) {
-            element4.innerText = "トークンは有効です。";
-            } else {
-            element4.innerText = "トークンは無効です。";
+
+            // トークンのデコード処理
+            try {
+                const base64Url = token.split('.')[1]; // トークンのペイロード部分
+                const payload = JSON.parse(atob(base64Url));
+                element3.innerText = `ペイロード: ${JSON.stringify(payload, null, 2)}`;
+
+                const currentTime = Math.floor(Date.now() / 1000); // 現在のUnixタイムスタンプ
+                const expTime = payload.exp; // トークンの有効期限
+
+                if (currentTime < expTime) {
+                    element4.innerText = "トークンは有効です。";
+                } else {
+                    element4.innerText = "トークンは無効です。";
+                }
+            } catch (e) {
+                element4.innerText = "トークンのデコードに失敗しました: " + e.message;
+                return;
             }
 
+            // サーバーへの認証リクエスト
             fetch("https://api.hatena-scratch.f5.si/auth/check", {
                 method: "GET",
                 headers: {
@@ -40,15 +57,23 @@
                     "Content-Type": "application/json"
                 }
             })
-          .then(response => response.json())
-          .then(data => {
-            if (data.isAuthenticated) {
-              element.innerText = '認証成功:${data.user}';
-            } else {
-              element.innerText = "認証失敗";
-            }
-          })
-          .catch(error => element.innerText = "エラー:", error)      });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTPエラー: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.isAuthenticated) {
+                        element.innerText = `認証成功: ユーザー名=${data.user.name}`;
+                    } else {
+                        element.innerText = "認証失敗";
+                    }
+                })
+                .catch(error => {
+                    element.innerText = `エラー: ${error.message}`;
+                });
+        });
     </script>
-  </body>
+</body>
 </html>
