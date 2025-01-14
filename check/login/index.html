@@ -13,6 +13,7 @@
             const element = document.getElementById("log");
             const element2 = document.getElementById("tokenlog");
             const element3 = document.getElementById("token1");
+            const element4 = document.getElementById("token2");
             try {
                 const tokentest = localStorage.getItem("authToken");
             } catch (e) {
@@ -22,8 +23,16 @@
             const token = localStorage.getItem("authToken");
             element2.innerText = `トークンの取得に成功しました: ${token}`;
             const base64Url = token.split('.')[1]; // トークンのペイロード部分
-            const decodedPayload = JSON.parse(atob(base64Url));
-            element3.innerText = JSON.stringify(decodedPayload); // 修正: innerTextのスペルを修正
+            const payload = JSON.parse(atob(base64Url));
+            element3.innerText = JSON.stringify(payload);
+            const currentTime = Math.floor(Date.now() / 1000); // 現在のUnixタイムスタンプ
+            const expTime = payload.exp; // expの値を取得
+            const resultElement = document.getElementById('result');
+            if (currentTime < expTime) {
+            element4.innerText = "トークンは有効です。";
+            } else {
+            element4.innerText = "トークンは無効です。";
+            }
 
             fetch("https://api.hatena-scratch.f5.si/auth/check", {
                 method: "GET",
