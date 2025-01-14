@@ -14,7 +14,7 @@
       document.addEventListener("DOMContentLoaded", function() {
         const element = document.getElementById("log");
         const element2 = document.getElementById("tokenlog");
-        const element3 = document.grtElementById("token1");
+        const element3 = document.getElementById("token1");
         try {
           const tokentest = localStorage.getItem("authToken");
         } catch( e ) {
@@ -25,7 +25,7 @@
         element2.innerText = `トークンの取得に成功しました: ${token}`
         const base64Url = token.split('.')[1]; // トークンのペイロード部分
         const decodedPayload = JSON.parse(atob(base64Url));
-        element3.innertext = decodedPayload
+        element3.innerText = decodedPayload
         fetch("https://api.hatena-scratch.f5.si/auth/check", {
           method: "GET",
           headers: {
