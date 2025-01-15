@@ -1,5 +1,5 @@
 // 現在のURLからユーザー名を取得
-const path = window.location.pathname; // e.g., /user/username
+const path = window.location.pathname; // /user/username
 const userName = path.split('/')[2]; // "username"
 
 // APIのURLを組み立て
